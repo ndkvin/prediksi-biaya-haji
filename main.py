@@ -7,7 +7,7 @@ def load_data():
 
 st.set_page_config(page_title='Prediksi Biaya Perkalanan Haji', layout='wide', page_icon="📊")
 
-st.sidebar.title('Sidebar')
+st.sidebar.title('Sidebar Title')
 
 st.title('Prediksi Biaya Perkalanan Haji')
 st.table(load_data())
