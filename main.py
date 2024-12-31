@@ -5,15 +5,14 @@ import pandas as pd
 def load_data():
     return pd.read_csv('./data/data.csv', index_col=0)
 
-df = load_data()
-
 st.set_page_config(page_title='Prediksi Biaya Perjakanan Haji', layout='wide', page_icon="📊")
+
+df = load_data()
 
 tahun = st.sidebar.selectbox('Tahun', df['Tahun'].unique(), index=len(df['Tahun'].unique())-1)
 df = df[df['Tahun'] <= tahun]
 
 st.title('Prediksi Biaya Perjakanan Haji')
-# st.table(df)
 
 st.write('## Perbandingan BIPIH, BPIH, dan Nilai Manfaat')
 st.line_chart(data=pd.DataFrame({
