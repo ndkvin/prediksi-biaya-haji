@@ -28,7 +28,6 @@ st.title('Prediksi Biaya Perjalanan Haji')
 st.write('## Perbandingan BIPIH, BPIH, dan Nilai Manfaat')
 fig = go.Figure()
 
-# Add bars
 fig.add_trace(go.Bar(
     x=df['Tahun'],
     y=df['BPIH (jt)'],
@@ -43,7 +42,6 @@ fig.add_trace(go.Bar(
     marker_color='#ff7f0e'
 ))
 
-# Update layout
 fig.update_layout(
     barmode='overlay',
     xaxis=dict(
@@ -60,37 +58,23 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 st.write('## Nilai BIPIH/BPIH')
-st.bar_chart(data=pd.DataFrame({
-            'Tahun': df['Tahun'].astype(str), 
-            'BIPIH/BPIH': df['BIPIH/BPIH'].astype(float)
-        }).set_index('Tahun'), use_container_width=True)
 
-st.line_chart(data=pd.DataFrame({
-            'Tahun': df['Tahun'].astype(str), 
-            'BIPIH/BPIH': df['BIPIH/BPIH'].astype(float)
-        }).set_index('Tahun'), use_container_width=True)
+fig = go.Figure()
 
-col1, col2 = st.columns(2)
+fig.add_trace(go.Scatter(
+    x=df['Tahun'], 
+    y=df['BIPIH/BPIH'],
+    mode='lines+markers',
+    name='BIPIH/BPIH',
+    marker=dict(size=10) 
+))
 
-with col1:
-    st.write('## BPIH (Juta)')
-    st.bar_chart(data=pd.DataFrame({
-        'Tahun': df['Tahun'].astype(str), 
-        'BPIH (jt)': df['BPIH (jt)'].astype(float)
-    }).set_index('Tahun'), use_container_width=True)
-    
-    st.write('## Nilai Manfaat (Juta)')
-    st.bar_chart(data=pd.DataFrame({
-        'Tahun': df['Tahun'].astype(str), 
-        'Nilai Manfaat (jt)': df['Nilai Manfaat (jt)'].astype(float)
-    }).set_index('Tahun'), use_container_width=True)
+fig.update_layout(
+    title='Perubahan BIPIH/BPIH Per Tahun',
+    xaxis_title='Tahun',
+    yaxis_title='BIPIH/BPIH',
+    template='plotly_white',
+    yaxis=dict(range=[0, 1])
+)
 
-with col2:
-    st.write('## BIPIH (Juta)')
-    st.bar_chart(data=pd.DataFrame({
-        'Tahun': df['Tahun'].astype(str), 
-        'Bipih (jt)': df['Bipih (jt)'].astype(float)
-    }).set_index('Tahun'), use_container_width=True)
-
-
-
+st.plotly_chart(fig, use_container_width=True)
