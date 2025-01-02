@@ -4,7 +4,9 @@ import plotly.graph_objects as go
 
 @st.cache_data
 def load_data():
-    return pd.read_csv('./data/data.csv', index_col=0)
+    df = pd.read_csv('./data/data.csv')
+    df['BIPIH/BPIH'] = df['Bipih (jt)']/df['BPIH (jt)']
+    return df
 
 st.set_page_config(page_title='Prediksi Biaya Perjalanan Haji', layout='wide', page_icon="📊")
 
@@ -13,10 +15,21 @@ df = load_data()
 col1, col2 = st.sidebar.columns(2)
 
 with col1:
-    start_year = st.selectbox('Tahun Awal', df['Tahun'].unique(), index=0)
+    start_year = st.selectbox(
+        'Tahun Awal',
+        options=df['Tahun'].unique(),
+        index=0,
+        placeholder='Search year...',
+        key='Cari Tahun Awal'
+    )
 
 with col2:
-    end_year = st.selectbox('Tahun Akhir', df['Tahun'].unique(), index=len(df['Tahun'].unique())-1)
+    end_year = st.selectbox(
+        'Tahun Akhir', 
+        df['Tahun'].unique(), 
+        index=len(df['Tahun'].unique())-1, 
+        key='Cari Tahun Akhir'
+    )
 
 if end_year < start_year:
     st.sidebar.error('Tahun Akhir tidak boleh kurang dari Tahun Awal')
@@ -70,7 +83,6 @@ fig.add_trace(go.Scatter(
 ))
 
 fig.update_layout(
-    title='Perubahan BIPIH/BPIH Per Tahun',
     xaxis_title='Tahun',
     yaxis_title='BIPIH/BPIH',
     template='plotly_white',
