@@ -25,7 +25,7 @@ else:
 
 st.title('Prediksi Biaya Perjalanan Haji')
 
-st.write('## Perbandingan BIPIH, BPIH, dan Nilai Manfaat')
+st.write('## Perbandingan BIPIH dengan BPIH')
 fig = go.Figure()
 
 fig.add_trace(go.Bar(
